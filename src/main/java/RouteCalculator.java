@@ -20,16 +20,16 @@ public class RouteCalculator
     public List<Station> getShortestRoute(Station from, Station to)
     {
         List<Station> route = getRouteOnTheLine(from, to);
-        if(route != null) {
-            return route;
+
+        List<Station> newRoute = getRouteWithOneConnection(from, to);
+        if(route == null || (newRoute != null && newRoute.size() < route.size())) {
+            route = newRoute;
         }
 
-        route = getRouteWithOneConnection(from, to);
-        if(route != null) {
-            return route;
+        newRoute = getRouteWithTwoConnections(from, to);
+        if(route == null || (newRoute != null && newRoute.size() < route.size())) {
+            route = newRoute;
         }
-
-        route = getRouteWithTwoConnections(from, to);
         return route;
     }
 
@@ -52,7 +52,7 @@ public class RouteCalculator
 
     //=========================================================================
 
-    private List<Station> getRouteOnTheLine(Station from, Station to)//private
+    private List<Station> getRouteOnTheLine(Station from, Station to)
     {
         if(!from.getLine().equals(to.getLine())) {
             return null;
@@ -86,7 +86,7 @@ public class RouteCalculator
         return route;
     }
 
-    private List<Station> getRouteWithOneConnection(Station from, Station to)//private
+    private List<Station> getRouteWithOneConnection(Station from, Station to)
     {
         if(from.getLine().equals(to.getLine())) {
             return null;
@@ -116,13 +116,13 @@ public class RouteCalculator
         return route;
     }
 
-    private boolean isConnected(Station station1, Station station2)//private
+    private boolean isConnected(Station station1, Station station2)
     {
         Set<Station> connected = stationIndex.getConnectedStations(station1);
         return connected.contains(station2);
     }
 
-    private List<Station> getRouteViaConnectedLine(Station from, Station to)//private
+    private List<Station> getRouteViaConnectedLine(Station from, Station to)
     {
         Set<Station> fromConnected = stationIndex.getConnectedStations(from);
         Set<Station> toConnected = stationIndex.getConnectedStations(to);
@@ -138,7 +138,7 @@ public class RouteCalculator
         return null;
     }
 
-    private List<Station> getRouteWithTwoConnections(Station from, Station to)//private
+    private List<Station> getRouteWithTwoConnections(Station from, Station to)
     {
         if (from.getLine().equals(to.getLine())) {
             return null;
