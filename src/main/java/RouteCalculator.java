@@ -20,16 +20,16 @@ public class RouteCalculator
     public List<Station> getShortestRoute(Station from, Station to)
     {
         List<Station> route = getRouteOnTheLine(from, to);
-
-        List<Station> newRoute = getRouteWithOneConnection(from, to);
-        if(route == null || (newRoute != null && newRoute.size() < route.size())) {
-            route = newRoute;
+        if(route != null) {
+            return route;
         }
 
-        newRoute = getRouteWithTwoConnections(from, to);
-        if(route == null || (newRoute != null && newRoute.size() < route.size())) {
-            route = newRoute;
+        route = getRouteWithOneConnection(from, to);
+        if(route != null && route.size() < getRouteWithTwoConnections(from, to).size()) {
+            return route;
         }
+
+        route = getRouteWithTwoConnections(from, to);
         return route;
     }
 
