@@ -123,17 +123,27 @@ public class RouteCalculatorTest {
     }
 
     @Test
-    public void calculateDuration_WithoutTransplant() {
+    public void calculateDuration_WithoutTransplant_1() {
         double interStationDuration = 2.5;
         List<Station> stations = rc.getShortestRoute(stationIndex.getStation("Девяткино"),
                 stationIndex.getStation("Проспект Ветеранов"));
-        double actual = interStationDuration * (stations.size() - 1);
+        double actual = interStationDuration * 18;
         double expected = rc.calculateDuration(stations);
         Assert.assertEquals(expected, actual, 0.0001);
     }
 
     @Test
-    public void calculateDuration_With_One_Transfer() {
+    public void calculateDuration_WithoutTransplant_2() {
+        double interStationDuration = 2.5;
+        List<Station> stations = rc.getShortestRoute(stationIndex.getStation("Петроградская"),
+                stationIndex.getStation("Электросила"));
+        double actual = interStationDuration * 7;
+        double expected = rc.calculateDuration(stations);
+        Assert.assertEquals(expected, actual, 0.0001);
+    }
+
+    @Test
+    public void calculateDuration_With_One_Transfer_1() {
         double interStationDuration = 2.5;
         double interConnectionDuration = 3.5;
         List<Station> stations = rc.getShortestRoute(stationIndex.getStation("Девяткино"),
@@ -144,7 +154,29 @@ public class RouteCalculatorTest {
     }
 
     @Test
-    public void calculateDuration_With_Two_Transfer() {
+    public void calculateDuration_With_One_Transfer_2() {
+        double interStationDuration = 2.5;
+        double interConnectionDuration = 3.5;
+        List<Station> stations = rc.getShortestRoute(stationIndex.getStation("Парнас"),
+                stationIndex.getStation("Проспект Ветеранов"));
+        double actual = interStationDuration * 16 + interConnectionDuration * 1;
+        double expected = rc.calculateDuration(stations);
+        Assert.assertEquals(expected, actual, 0.0001);
+    }
+
+    @Test
+    public void calculateDuration_With_One_Transfer_3() {
+        double interStationDuration = 2.5;
+        double interConnectionDuration = 3.5;
+        List<Station> stations = rc.getShortestRoute(stationIndex.getStation("Фрунзенская"),
+                stationIndex.getStation("Елизаровская"));
+        double actual = interStationDuration * 6 + interConnectionDuration * 1;
+        double expected = rc.calculateDuration(stations);
+        Assert.assertEquals(expected, actual, 0.0001);
+    }
+
+    @Test
+    public void calculateDuration_With_Two_Transfer_1() {
         double interStationDuration = 2.5;
         double interConnectionDuration = 3.5;
         List<Station> stations = rc.getShortestRoute(stationIndex.getStation("Девяткино"),
@@ -153,4 +185,16 @@ public class RouteCalculatorTest {
         double expected = rc.calculateDuration(stations);
         Assert.assertEquals(expected, actual, 0.0001);
     }
+
+    @Test
+    public void calculateDuration_With_Two_Transfer_2() {
+        double interStationDuration = 2.5;
+        double interConnectionDuration = 3.5;
+        List<Station> stations = rc.getShortestRoute(stationIndex.getStation("Горьковская"),
+                stationIndex.getStation("Чернышевская"));
+        double actual = interStationDuration * 3 + interConnectionDuration * 2;
+        double expected = rc.calculateDuration(stations);
+        Assert.assertEquals(expected, actual, 0.0001);
+    }
 }
+
